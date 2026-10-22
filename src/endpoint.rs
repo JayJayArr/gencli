@@ -21,7 +21,7 @@ pub async fn get_bearer_token(
     client_secret: String,
     base_url: String,
 ) -> anyhow::Result<StandardTokenResponse<EmptyExtraTokenFields, BasicTokenType>> {
-    info!("Authenticating with the Genetec API: {}", base_url);
+    info!("Authenticating with ClearID: {}", base_url);
     let url = format!("{}/connect/token", base_url);
     let oauth_client = BasicClient::new(ClientId::new(client_id))
         .set_client_secret(ClientSecret::new(client_secret))

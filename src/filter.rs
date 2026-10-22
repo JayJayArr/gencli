@@ -52,7 +52,7 @@ pub fn filter_identities_by_lastmodified(identities: Vec<Value>, inactive_days: 
 }
 
 pub async fn dump_identities(identities: &Vec<Value>) -> anyhow::Result<()> {
-    let filename = format!("genetec_ident_remover{}.json", Local::now().timestamp());
+    let filename = format!("gencli{}.json", Local::now().timestamp());
     info!(
         "Dumping {} relevant identities to file {}",
         identities.len(),

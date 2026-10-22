@@ -1,8 +1,8 @@
 [package]
-name = "genetec-ident-remover"
-version = "0.3.3"
+name = "gencli"
+version = "0.3.4"
 edition = "2024"
-repository = "https://github.com/JayJayArr/genetec-ident-remover"
+repository = "https://github.com/JayJayArr/gencli"
 
 [dependencies]
 anyhow = "1.0.104"

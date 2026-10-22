@@ -62,7 +62,7 @@ mod cli {
         cmd.args(["--version"])
             .assert()
             .success()
-            .stdout(contains("genetec-ident-remover"))
+            .stdout(contains("gencli"))
             .stdout(contains(env!("CARGO_PKG_VERSION")));
     }
 }

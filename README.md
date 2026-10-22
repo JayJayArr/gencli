@@ -1,4 +1,4 @@
-# genetec-ident-remover
+# gencli
 
 Supports multiple commands to list & remove objects from Genetec ClearID.
 This has been tested against the Genetec ClearID-API identity enpoints v4.
@@ -12,9 +12,9 @@ Create an API integration and download the corresponding *.json file. This inclu
 For help please take a look at:
 
 ```bash
-genetec-ident-remover help
+gencli help
 
-Usage: genetec-ident-remover <COMMAND>
+Usage: gencli <COMMAND>
 
 Commands:
   list-inactive-identities
@@ -33,7 +33,7 @@ Options:
 List all inactive identities which have not been modified within the last 90 days from a Genetec ClearID instance.
 
 ```bash
-genetec-ident-remover list-inactive-identities -k <keyfile_name>.json
+gencli list-inactive-identities -k <keyfile_name>.json
 
 ```
 
@@ -42,7 +42,7 @@ genetec-ident-remover list-inactive-identities -k <keyfile_name>.json
 Removes all inactive Identities which have not been modified within the last 90 days from a Genetec ClearID instance.
 
 ```bash
-genetec-ident-remover purge-inactive-identities -k <keyfile_name>.json
+gencli purge-inactive-identities -k <keyfile_name>.json
 
 ```
 
@@ -51,7 +51,7 @@ genetec-ident-remover purge-inactive-identities -k <keyfile_name>.json
 Removes all Pictures from all Identities in a Genetec ClearID instance.
 
 ```bash
-genetec-ident-remover purge-pictures -k <keyfile_name>.json --delete
+gencli purge-pictures -k <keyfile_name>.json --delete
 
 ```
 
@@ -60,7 +60,7 @@ genetec-ident-remover purge-pictures -k <keyfile_name>.json --delete
 Some other Configuration options are available, to list all options please consult the help of the needed subcommand, e.g.:
 
 ```bash
-genetec-ident-remover purge-inactive-identities help
+gencli purge-inactive-identities help
 
 Options:
   -k <KEYFILE>
