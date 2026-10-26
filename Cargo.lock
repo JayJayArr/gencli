@@ -616,7 +616,7 @@ dependencies = [
 
 [[package]]
 name = "gencli"
-version = "0.3.3"
+version = "0.3.4"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -630,6 +630,7 @@ dependencies = [
  "reqwest 0.13.5",
  "serde",
  "serde_json",
+ "thiserror 2.0.21",
  "tokio",
  "tracing",
  "tracing-subscriber",

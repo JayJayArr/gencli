@@ -8,6 +8,8 @@ use serde::Deserialize;
 use serde_json::Value;
 use tracing::{error, info};
 
+use crate::error::ApplicationError;
+
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct IdentityResponse {
@@ -20,7 +22,7 @@ pub async fn get_bearer_token(
     client_id: String,
     client_secret: String,
     base_url: String,
-) -> anyhow::Result<StandardTokenResponse<EmptyExtraTokenFields, BasicTokenType>> {
+) -> Result<StandardTokenResponse<EmptyExtraTokenFields, BasicTokenType>, ApplicationError> {
     info!("Authenticating with ClearID: {}", base_url);
     let url = format!("{}/connect/token", base_url);
     let oauth_client = BasicClient::new(ClientId::new(client_id))
@@ -30,8 +32,8 @@ pub async fn get_bearer_token(
     let http_client = oauth2::reqwest::ClientBuilder::new()
         // Following redirects opens the client up to SSRF vulnerabilities.
         .redirect(oauth2::reqwest::redirect::Policy::none())
-        .build()
-        .expect("Client should build");
+        .build()?;
+    // .expect("Client should build");
 
     let token_result: StandardTokenResponse<EmptyExtraTokenFields, BasicTokenType> = oauth_client
         .exchange_client_credentials()
@@ -46,7 +48,7 @@ pub async fn get_all_identities(
     bearer_token: &str,
     identity_base_url: String,
     account_id: String,
-) -> anyhow::Result<Vec<Value>> {
+) -> Result<Vec<Value>, ApplicationError> {
     let url = format!(
         "{}/api/v4/accounts/{}/identities",
         identity_base_url, account_id

@@ -1,6 +1,5 @@
-use std::process::exit;
-
 use crate::endpoint::{delete_identities, delete_pictures, get_all_identities, get_bearer_token};
+use crate::error::ApplicationError;
 use crate::filter::{
     dump_identities, filter_identities_by_lastmodified, filter_identities_by_status,
 };
@@ -9,9 +8,11 @@ use crate::telemetry::init_tracing;
 use clap::Parser;
 use clap::Subcommand;
 use oauth2::TokenResponse;
+use std::process::exit;
 use tracing::info;
 use tracing::warn;
 mod endpoint;
+mod error;
 mod filter;
 mod key;
 mod telemetry;
@@ -59,9 +60,8 @@ pub enum Commands {
 }
 
 #[tokio::main]
-
-async fn main() -> anyhow::Result<()> {
-    init_tracing()?;
+async fn main() -> Result<(), ApplicationError> {
+    init_tracing().expect("Failed to initialize Tracing, aborting...");
     let args = Cli::parse();
     match args.command {
         Commands::ListInactiveIdentities {
@@ -201,7 +201,7 @@ async fn main() -> anyhow::Result<()> {
     Ok(())
 }
 
-async fn get_keyfile(filename: String) -> anyhow::Result<KeyFile> {
+async fn get_keyfile(filename: String) -> Result<KeyFile, ApplicationError> {
     let file = tokio::fs::read_to_string(filename).await.unwrap();
 
     let keyfile = serde_json::from_str(file.as_str())?;
