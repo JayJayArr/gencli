@@ -19,7 +19,7 @@ mod cli {
         cmd.args(["list-inactive-identities", "-k", "key-dummy.json"])
             .assert()
             .failure()
-            .stderr(contains("client error (Connect)"));
+            .stderr(contains("tcp connect error"));
     }
 
     #[tokio::test]
