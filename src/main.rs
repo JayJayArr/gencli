@@ -225,6 +225,10 @@ mod tests {
 
     #[tokio::test]
     async fn test_dummy_keyfile_is_parsed_correctly() {
-        assert!(get_keyfile("./key-dummy.json".to_string()).await.is_ok())
+        assert!(
+            get_keyfile("./tests/key-dummy.json".to_string())
+                .await
+                .is_ok()
+        )
     }
 }

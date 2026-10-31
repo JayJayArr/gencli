@@ -16,7 +16,7 @@ mod cli {
     #[tokio::test]
     async fn test_cli_fails_with_dummy_keyfile() {
         let mut cmd = cargo_bin_cmd!();
-        cmd.args(["list-inactive-identities", "-k", "key-dummy.json"])
+        cmd.args(["list-inactive-identities", "-k", "tests/key-dummy.json"])
             .assert()
             .failure()
             .stderr(contains("tcp connect error"));
@@ -25,7 +25,7 @@ mod cli {
     #[tokio::test]
     async fn test_cli_emmits_delete_warning_on_flag() {
         let mut cmd = cargo_bin_cmd!();
-        cmd.args(["purge-inactive-identities", "-k", "key-dummy.json"])
+        cmd.args(["purge-inactive-identities", "-k", "tests/key-dummy.json"])
             .assert()
             .failure()
             .stdout(contains("Are you sure you want to do this?"));
