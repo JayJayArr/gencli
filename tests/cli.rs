@@ -1,6 +1,7 @@
 mod cli {
     use assert_cmd::cargo_bin_cmd;
     use predicates::str::contains;
+    use rstest::rstest;
 
     #[tokio::test]
     async fn test_cli_aborts_without_keyfile() {
@@ -23,37 +24,27 @@ mod cli {
     }
 
     #[tokio::test]
-    async fn test_cli_emmits_delete_warning_on_flag() {
+    #[rstest]
+    #[case("purge-inactive-identities")]
+    #[case("purge-pictures")]
+    async fn test_cli_emmits_delete_warning_on_flag(#[case] command: &str) {
         let mut cmd = cargo_bin_cmd!();
-        cmd.args(["purge-inactive-identities", "-k", "tests/key-dummy.json"])
+        cmd.args([command, "-k", "tests/key-dummy.json"])
             .assert()
             .failure()
             .stdout(contains("Are you sure you want to do this?"));
     }
 
     #[tokio::test]
-    async fn all_subcommands_are_accepted() {
+    #[rstest]
+    #[case("list-inactive-identities")]
+    #[case("purge-inactive-identities")]
+    #[case("purge-pictures")]
+    async fn all_subcommands_are_accepted(#[case] command: &str) {
         let mut cmd = cargo_bin_cmd!();
-        cmd.args(["list-inactive-identities"])
-            .assert()
-            .failure()
-            .stderr(contains(
-                "the following required arguments were not provided:",
-            ));
-        cmd = cargo_bin_cmd!();
-        cmd.args(["purge-inactive-identities"])
-            .assert()
-            .failure()
-            .stderr(contains(
-                "the following required arguments were not provided:",
-            ));
-        cmd = cargo_bin_cmd!();
-        cmd.args(["purge-pictures"])
-            .assert()
-            .failure()
-            .stderr(contains(
-                "the following required arguments were not provided:",
-            ));
+        cmd.args([command]).assert().failure().stderr(contains(
+            "the following required arguments were not provided:",
+        ));
     }
 
     #[tokio::test]
