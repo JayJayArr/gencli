@@ -6,7 +6,7 @@ repository = "https://github.com/JayJayArr/gencli"
 
 [dependencies]
 anyhow = "1.0.104"
-clap = {version = "4.6.7", features = ["derive"]}
+clap = {version = "4.6.8", features = ["derive"]}
 reqwest = {version= "0.13.5", features = ["query", "json"]}
 serde = {version ="1.0.229", features = ["derive"]}
 serde_json = "1.0.154"
@@ -16,7 +16,6 @@ oauth2 = {version = "5.0.0"}
 tracing-subscriber = {version ="0.3.23", features = ["env-filter", "std"]}
 chrono = {version = "0.4.45", features= ["serde", "clock"]}
 futures-util = "0.3.34"
-wiremock = "0.6.5"
 indicatif = "0.18.6"
 rayon = "1.12.0"
 thiserror = "2.0.21"
@@ -25,6 +24,7 @@ thiserror = "2.0.21"
 assert_cmd = "2.2.2"
 predicates = "3.1.4"
 rstest = "0.28.0"
+wiremock = "0.6.5"
 
 # The profile that 'dist' will build with
 [profile.dist]
