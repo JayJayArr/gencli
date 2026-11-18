@@ -22,3 +22,7 @@ update: ## run cargo upgrade && cargo update
 .PHONY: test
 test: ## run tests
 	cargo nextest run
+
+.PHONY: tui
+tui: ## run in tui mode
+	cargo run -- tui -k ./tests/key-dummy.json

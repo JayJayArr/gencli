@@ -1,6 +1,6 @@
 use anyhow::Result;
-use crossterm::event;
-use ratatui::{DefaultTerminal, text::Line, widgets::Widget};
+use crossterm::event::{self, Event, KeyCode, KeyEventKind};
+use ratatui::{DefaultTerminal, widgets::Block};
 
 use crate::key::KeyFile;
 
@@ -23,7 +23,8 @@ impl App {
             // terminal.draw(|frame| frame.render_widget("Hello, world!", frame.area()))?;
             terminal.draw(|frame| {
                 frame.render_widget(
-                    format!("Running gencli for System: {}", self.keyfile.accountId),
+                    Block::bordered()
+                        .title(format!("Gencli for account: {}", self.keyfile.accountId)),
                     frame.area(),
                 )
             })?;
@@ -32,45 +33,17 @@ impl App {
         Ok(())
     }
     fn handle_events(&mut self) -> Result<()> {
-        if event::read()?.is_key_press() {
-            self.should_quit = true;
+        //if nothing happens do nothing
+        if !event::poll(std::time::Duration::from_millis(16))? {
+            return Ok(());
+        }
+        match event::read()? {
+            Event::Key(key) if key.kind == KeyEventKind::Press => match key.code {
+                KeyCode::Char('q') => self.should_quit = true,
+                _ => (),
+            },
+            _ => (),
         }
         Ok(())
-    }
-}
-
-impl Widget for &App {
-    fn render(self, area: ratatui::prelude::Rect, buf: &mut ratatui::prelude::Buffer)
-    where
-        Self: Sized,
-    {
-        Line::raw(format!(
-            "Running gencli for System: {}",
-            self.keyfile.accountId
-        ))
-        .render(area, buf);
-    }
-}
-
-// fn render(frame: &mut Frame) {
-//     frame.render_widget("hello world", frame.area());
-// }
-//
-
-#[cfg(test)]
-mod tests {
-    use insta::assert_snapshot;
-    use ratatui::{Terminal, backend::TestBackend};
-
-    use super::App;
-
-    #[test]
-    fn test_render_app() {
-        let app = App::default();
-        let mut terminal = Terminal::new(TestBackend::new(80, 20)).unwrap();
-        terminal
-            .draw(|frame| frame.render_widget(&app, frame.area()))
-            .unwrap();
-        assert_snapshot!(terminal.backend());
     }
 }
