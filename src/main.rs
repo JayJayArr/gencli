@@ -5,6 +5,7 @@ use crate::filter::{
 };
 use crate::key::KeyFile;
 use crate::telemetry::init_tracing;
+use crate::tui::app;
 use clap::Parser;
 use clap::Subcommand;
 use oauth2::TokenResponse;
@@ -16,6 +17,7 @@ mod error;
 mod filter;
 mod key;
 mod telemetry;
+mod tui;
 
 #[derive(Parser, Debug)]
 #[command(version, about)]
@@ -56,6 +58,12 @@ pub enum Commands {
         /// Number of concurrent requests when deleting the Identities
         #[arg(short, long, default_value_t = 10)]
         concurrency: usize,
+    },
+
+    /// Start in tui-mode
+    Tui {
+        #[arg(short)]
+        keyfile: String,
     },
 }
 
@@ -197,6 +205,7 @@ async fn main() -> Result<(), ApplicationError> {
             .await
             .expect("Deletion failed");
         }
+        Commands::Tui { keyfile } => ratatui::run(app)?,
     }
     Ok(())
 }

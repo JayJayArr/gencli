@@ -17,4 +17,6 @@ pub enum ApplicationError {
     OAuthUrlParse(#[from] oauth2::url::ParseError),
     #[error("Deserialization Error")]
     Deserialization(#[from] serde_json::Error),
+    #[error("Error Running tui application")]
+    Ratatui(#[from] std::io::Error),
 }
