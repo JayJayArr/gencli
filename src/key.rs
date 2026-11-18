@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 #[allow(non_snake_case)]
 #[allow(dead_code)]
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct KeyFile {
     pub accountId: String,
     pub key: Key,
@@ -18,7 +18,7 @@ pub struct KeyFile {
 
 #[allow(non_snake_case)]
 #[allow(dead_code)]
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Key {
     pub kid: String,
     pub keyType: String,

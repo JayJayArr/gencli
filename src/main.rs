@@ -5,7 +5,7 @@ use crate::filter::{
 };
 use crate::key::KeyFile;
 use crate::telemetry::init_tracing;
-use crate::tui::app;
+use crate::tui::App;
 use clap::Parser;
 use clap::Subcommand;
 use oauth2::TokenResponse;
@@ -205,7 +205,11 @@ async fn main() -> Result<(), ApplicationError> {
             .await
             .expect("Deletion failed");
         }
-        Commands::Tui { keyfile } => ratatui::run(app)?,
+        Commands::Tui { keyfile } => {
+            let keyfile: KeyFile = get_keyfile(keyfile).await?;
+            let mut app = App::new(keyfile);
+            ratatui::run(|terminal| app.run(terminal)).unwrap()
+        }
     }
     Ok(())
 }
